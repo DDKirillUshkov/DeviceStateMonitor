@@ -4,6 +4,7 @@ inhibit_all_warnings!
 
 target 'DeviceStateMonitor_Example' do
   pod 'DeviceStateMonitor', :path => '../'
+  pod 'SwiftMessages'
 
   target 'DeviceStateMonitor_Tests' do
     inherit! :search_paths

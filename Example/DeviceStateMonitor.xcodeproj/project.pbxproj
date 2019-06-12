@@ -296,12 +296,14 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-DeviceStateMonitor_Example/Pods-DeviceStateMonitor_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/DeviceStateMonitor/DeviceStateMonitor.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DeviceStateMonitor.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMessages.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

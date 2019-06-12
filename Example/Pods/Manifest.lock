@@ -1,8 +1,16 @@
 PODS:
   - DeviceStateMonitor (0.1.0)
+  - SwiftMessages (7.0.0):
+    - SwiftMessages/App (= 7.0.0)
+  - SwiftMessages/App (7.0.0)
 
 DEPENDENCIES:
   - DeviceStateMonitor (from `../`)
+  - SwiftMessages
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - SwiftMessages
 
 EXTERNAL SOURCES:
   DeviceStateMonitor:
@@ -10,7 +18,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   DeviceStateMonitor: cde0d4618fd30e810eeb8e8da6ff10f8373355d6
+  SwiftMessages: a952f7a9103d9aeab93730a2861d2d8fcdd8758f
 
-PODFILE CHECKSUM: 4ea2045fe74ede9ed5796e59b7804ccec3c0e453
+PODFILE CHECKSUM: 756aa5f792b04e2681fc997e4824f00de367a37e
 
 COCOAPODS: 1.6.1
