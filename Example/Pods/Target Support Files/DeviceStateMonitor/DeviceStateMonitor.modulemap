@@ -1,0 +1,6 @@
+framework module DeviceStateMonitor {
+  umbrella header "DeviceStateMonitor-umbrella.h"
+
+  export *
+  module * { export * }
+}

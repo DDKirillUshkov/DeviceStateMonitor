@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'DeviceStateMonitor_Example' do
+  pod 'DeviceStateMonitor', :path => '../'
+
+  target 'DeviceStateMonitor_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

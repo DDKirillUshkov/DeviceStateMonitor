@@ -1,0 +1,16 @@
+PODS:
+  - DeviceStateMonitor (0.1.0)
+
+DEPENDENCIES:
+  - DeviceStateMonitor (from `../`)
+
+EXTERNAL SOURCES:
+  DeviceStateMonitor:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  DeviceStateMonitor: 4bfafc30771c335f15bdf1793b1d05ac0f60daf5
+
+PODFILE CHECKSUM: 1ecf2f29f66ee15bd5f5a8168c75704d2b529cfa
+
+COCOAPODS: 1.6.1
