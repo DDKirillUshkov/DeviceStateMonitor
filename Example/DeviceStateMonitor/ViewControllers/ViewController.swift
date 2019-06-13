@@ -14,11 +14,11 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
    
-    var deviceStateMonitor: DeviceStateMonitor?
+//    var deviceStateMonitor: DeviceStateMonitor?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        deviceStateMonitor = DeviceStateMonitor(with: self)
+//        deviceStateMonitor = DeviceStateMonitor(with: self)
         apply(theme: ThemeStorage.shared.current)
     }
     
@@ -51,40 +51,40 @@ enum MessageType: String {
     case overTermal = "Hey! We are burning - switched to safe theme"
 }
 
-extension ViewController: StateHandler {
-    func didChangeAccessours(state: Accessours) {
-        present(message: .newAccessour)
-    }
-    
-    func didChangePowerMode(state: PowerMode) {
-        if state == .lowPower {
-            ThemeStorage.shared.currentStyle = .dark
-            present(message: .darkTheme)
-            apply(theme: ThemeStorage.shared.current)
-            return
-        }
-        ThemeStorage.shared.currentStyle = .regular
-        present(message: .regularTheme)
-        apply(theme: ThemeStorage.shared.current)
-        
-    }
-    
-    func didChangePowerState(state: PowerState) {
-        if state == .charging {
-            ThemeStorage.shared.currentStyle = .regular
-            apply(theme: ThemeStorage.shared.current)
-            present(message: .charging)
-        }
-    }
-    
-    func didChangeTermalState(state: TermalState) {
-        if state != .nominal {
-            ThemeStorage.shared.currentStyle = .safe
-            apply(theme: ThemeStorage.shared.current)
-            present(message: .overTermal)
-        }
-    }    
-}
+//extension ViewController: StateHandler {
+////    func didChangeAccessours(state: Accessours) {
+////        present(message: .newAccessour)
+////    }
+////
+////    func didChangePowerMode(state: PowerMode) {
+////        if state == .lowPower {
+////            ThemeStorage.shared.currentStyle = .dark
+////            present(message: .darkTheme)
+////            apply(theme: ThemeStorage.shared.current)
+////            return
+////        }
+////        ThemeStorage.shared.currentStyle = .regular
+////        present(message: .regularTheme)
+////        apply(theme: ThemeStorage.shared.current)
+////
+////    }
+////
+////    func didChangePowerState(state: PowerState) {
+////        if state == .charging {
+////            ThemeStorage.shared.currentStyle = .regular
+////            apply(theme: ThemeStorage.shared.current)
+////            present(message: .charging)
+////        }
+////    }
+////
+////    func didChangeTermalState(state: TermalState) {
+////        if state != .nominal {
+////            ThemeStorage.shared.currentStyle = .safe
+////            apply(theme: ThemeStorage.shared.current)
+////            present(message: .overTermal)
+////        }
+////    }
+//}
 
 extension ViewController {
     func present(message: MessageType) {

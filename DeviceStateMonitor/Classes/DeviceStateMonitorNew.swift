@@ -8,51 +8,71 @@
 import Foundation
 import AVFoundation
 
-// TODO: Check forbiddance for implementation of Result in other library
-
-public protocol Result {
-    associatedtype Value
-    var value: Value { get set }
+@objc public enum DeviceService: Int {
+    case thermal
+    case battery
+    case power
 }
 
-public class ThermalResult: Result {
-    public typealias Value = ProcessInfo.ThermalState
-    public var value: Value
+@objc public protocol ServiceState {
+    @objc var service: DeviceService { get }
+}
+
+public class ThermalState: ServiceState {
+    public var thermalState: ProcessInfo.ThermalState
+    public var service: DeviceService { return .thermal }
     
-    init(value: Value) {
-        self.value = value
+    init(thermalState: ProcessInfo.ThermalState) {
+        self.thermalState = thermalState
     }
 }
 
-public class BatteryResult: Result {
-    public typealias Value = UIDevice.BatteryState
-    public var value: Value
+public class BatteryState: ServiceState {
+    public var batteryState: UIDevice.BatteryState
+    public var service: DeviceService { return .battery }
     
-    init(value: Value) {
-        self.value = value
+    init(batteryState: UIDevice.BatteryState) {
+        self.batteryState = batteryState
     }
 }
 
-public class PowerResult: Result {
-    public typealias Value = Bool
-    public var value: Value
+public class PowerState: ServiceState {
+    public var isLowMode: Bool
+    public var service: DeviceService { return .power }
     
-    init(value: Value) {
-        self.value = value
+    init(isLowMode: Bool) {
+        self.isLowMode = isLowMode
     }
+}
+
+@objc public protocol DeviceStateSubscriber: AnyObject {
+    func didUpdate(serviceState: ServiceState)
 }
 
 public final class DeviceStateMonitorNew {
     
+    // MARK: - Properties
+    
     public static let sharedInstance = DeviceStateMonitorNew()
     
-    var thermalSubscribers = [SubscriberContainer<ThermalResult>]()
-    var batterySubscribers = [SubscriberContainer<BatteryResult>]()
-    var powerSubscribers = [SubscriberContainer<PowerResult>]()
+    private var subscribers: [DeviceService: NSHashTable<DeviceStateSubscriber>]
+    
+    // MARK: - Lifecycle
     
     private init() {
+        subscribers = [.thermal: NSHashTable<DeviceStateSubscriber>.weakObjects(),
+                       .battery: NSHashTable<DeviceStateSubscriber>.weakObjects(),
+                       .power: NSHashTable<DeviceStateSubscriber>.weakObjects()]
         addObservers()
     }
+    
+    // MARK: - Interface
+    
+    public func subscribe(subscriber: DeviceStateSubscriber, to service: DeviceService) {
+        subscribers[service]?.add(subscriber)
+    }
+    
+    // MARK: - Private
     
     private func addObservers() {
         UIDevice.current.isBatteryMonitoringEnabled = true
@@ -75,20 +95,7 @@ public final class DeviceStateMonitorNew {
                                                object: nil)
     }
     
-    public func add2<T: Result>(subscriber: AnyObject, completion: @escaping ((T) -> Void)) {
-        
-        let container = SubscriberContainer(subscriber: subscriber, completion: completion)
-        
-        switch container {
-        case let container as SubscriberContainer<ThermalResult>:
-            thermalSubscribers.append(container)
-        case let container as SubscriberContainer<BatteryResult>:
-            batterySubscribers.append(container)
-        case let container as SubscriberContainer<PowerResult>:
-            powerSubscribers.append(container)
-        default: break
-        }
-    }
+    
 }
 
 // MARK: - Subscribes
@@ -96,22 +103,22 @@ private extension DeviceStateMonitorNew {
     @objc func termalStateDidChange(_ notification: NSNotification) {
         // or get from notification
         let thermalState = ProcessInfo.processInfo.thermalState
-        let result = ThermalResult(value: thermalState)
-        thermalSubscribers.forEach({ $0.completion?(result) })
+        let state = ThermalState(thermalState: thermalState)
+        subscribers[.thermal]?.allObjects.forEach({ $0.didUpdate(serviceState: state) })
     }
     
     @objc func batteryStateDidChange(_ notification: NSNotification) {
         // or get from notification
         let batteryState: UIDevice.BatteryState = UIDevice.current.batteryState
-        let result = BatteryResult(value: batteryState)
-        batterySubscribers.forEach({ $0.completion?(result) })
+        let state = BatteryState(batteryState: batteryState)
+        subscribers[.battery]?.allObjects.forEach({ $0.didUpdate(serviceState: state) })
     }
     
     @objc func powerStateDidChange(_ notification: NSNotification) {
         // or get from notification
         let powerState: Bool = ProcessInfo.processInfo.isLowPowerModeEnabled
-        let result = PowerResult(value: powerState)
-        powerSubscribers.forEach({ $0.completion?(result) })
+        let state = PowerState(isLowMode: powerState)
+        subscribers[.power]?.allObjects.forEach({ $0.didUpdate(serviceState: state) })
     }
     
     @objc func handleRouteChange(_ notification: NSNotification) {
@@ -120,21 +127,5 @@ private extension DeviceStateMonitorNew {
         let userInfo = notification.userInfo
         guard let reasonRaw = userInfo?[AVAudioSessionRouteChangeReasonKey] as? NSNumber else { return }
         let reason = AVAudioSession.RouteChangeReason(rawValue: reasonRaw.uintValue)
-    }
-}
-
-class SubscriberContainer<T: Result>: NSObject {
-    
-    private(set) weak var subscriber: AnyObject? {
-        didSet {
-            print("ALALA: \(subscriber)")
-        }
-    }
-    
-    private(set) var completion: ((T) -> Void)?
-    
-    init(subscriber: AnyObject?, completion: @escaping ((T) -> Void)) {
-        self.subscriber = subscriber
-        self.completion = completion
     }
 }
