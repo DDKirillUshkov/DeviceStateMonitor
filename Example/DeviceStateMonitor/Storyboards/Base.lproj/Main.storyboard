@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AZN-Xy-mE5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AZN-Xy-mE5">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -31,7 +31,7 @@
         <!--Eric Parker-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="StateMonitoringDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="DeviceStateMonitor_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -39,14 +39,14 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eng-N9-ujI">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="ZMG-N5-Zii" customClass="GridLayout" customModule="StateMonitoringDemo" customModuleProvider="target">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="ZMG-N5-Zii" customClass="GridLayout" customModule="DeviceStateMonitor_Example" customModuleProvider="target">
                                     <size key="itemSize" width="115" height="113"/>
                                     <size key="headerReferenceSize" width="50" height="324"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ImageCollectionViewCell" id="SRo-ik-4bq" customClass="ImageCollectionViewCell" customModule="StateMonitoringDemo" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ImageCollectionViewCell" id="SRo-ik-4bq" customClass="ImageCollectionViewCell" customModule="DeviceStateMonitor_Example" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="324" width="115" height="113"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -70,7 +70,7 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
-                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProvileHeaderCollectionView" id="Q4j-9T-GE3" customClass="ProvileHeaderCollectionView" customModule="StateMonitoringDemo" customModuleProvider="target">
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProvileHeaderCollectionView" id="Q4j-9T-GE3" customClass="ProvileHeaderCollectionView" customModule="DeviceStateMonitor_Example" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="324"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
@@ -192,15 +192,37 @@ followers</string>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Eric Parker" id="w4r-xh-XWS"/>
+                    <navigationItem key="navigationItem" title="Eric Parker" id="w4r-xh-XWS">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="nsM-8F-eea">
+                            <connections>
+                                <segue destination="FXm-Cd-g0N" kind="push" id="pdk-hZ-w4S"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="eng-N9-ujI" id="7E4-eb-TnB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <customObject id="wyr-Tg-2Dq" customClass="ProfileDataSource" customModule="StateMonitoringDemo" customModuleProvider="target"/>
+                <customObject id="wyr-Tg-2Dq" customClass="ProfileDataSource" customModule="DeviceStateMonitor_Example" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="52" y="26.53673163418291"/>
+        </scene>
+        <!--View Controller2-->
+        <scene sceneID="GOm-LI-3cs">
+            <objects>
+                <viewController id="FXm-Cd-g0N" customClass="ViewController2" customModule="DeviceStateMonitor_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1l7-1j-HuY">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="hUF-NN-Jfe"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Dyt-Zr-jUB"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WUt-ER-VDw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="798" y="27"/>
         </scene>
     </scenes>
     <resources>

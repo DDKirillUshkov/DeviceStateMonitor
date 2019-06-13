@@ -11,6 +11,7 @@
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		704FC84BBDD0FA379F479475 /* Pods_DeviceStateMonitor_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDB3C2B2CB7163602019A35C /* Pods_DeviceStateMonitor_Tests.framework */; };
 		81BF8E84E229EB0239493169 /* Pods_DeviceStateMonitor_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92AB0CADD577CABDBC4D9F95 /* Pods_DeviceStateMonitor_Example.framework */; };
+		8A18287D22B264F80032DF97 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A18287C22B264F80032DF97 /* ViewController2.swift */; };
 		8A460B0522B142F000C59A66 /* ProvileHeaderCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A460AF422B142EF00C59A66 /* ProvileHeaderCollectionView.swift */; };
 		8A460B0622B142F000C59A66 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A460AF522B142EF00C59A66 /* ImageCollectionViewCell.swift */; };
 		8A460B0722B142F000C59A66 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A460AF722B142EF00C59A66 /* LaunchScreen.storyboard */; };
@@ -45,6 +46,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		707675F90523C7B65A889E93 /* TODO.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = TODO.md; path = ../TODO.md; sourceTree = "<group>"; };
+		8A18287C22B264F80032DF97 /* ViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
 		8A460AF422B142EF00C59A66 /* ProvileHeaderCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProvileHeaderCollectionView.swift; sourceTree = "<group>"; };
 		8A460AF522B142EF00C59A66 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		8A460AF822B142EF00C59A66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				8A460B0422B142F000C59A66 /* ViewController.swift */,
+				8A18287C22B264F80032DF97 /* ViewController2.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				8A460B0622B142F000C59A66 /* ImageCollectionViewCell.swift in Sources */,
 				8A460B0B22B142F000C59A66 /* Themable.swift in Sources */,
 				8A460B0D22B142F000C59A66 /* RegularTheme.swift in Sources */,
+				8A18287D22B264F80032DF97 /* ViewController2.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				8A460B0E22B142F000C59A66 /* DarkTheme.swift in Sources */,
 				8A460B0A22B142F000C59A66 /* GridLayout.swift in Sources */,
