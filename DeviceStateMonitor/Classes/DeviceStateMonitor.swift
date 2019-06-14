@@ -7,16 +7,19 @@
 
 import Foundation
 
+/// Set of possible observable services
 @objc public enum DeviceService: Int {
     case thermal
     case battery
     case power
 }
 
+/// The protocol that must be implemented by the result models
 @objc public protocol ServiceState {
     @objc var service: DeviceService { get }
 }
 
+/// Class containing description of thermal state device
 public class ThermalState: ServiceState {
     public var thermalState: ProcessInfo.ThermalState
     public var service: DeviceService { return .thermal }
@@ -26,6 +29,7 @@ public class ThermalState: ServiceState {
     }
 }
 
+/// Class containing description of battery state device
 public class BatteryState: ServiceState {
     public var batteryState: UIDevice.BatteryState
     public var service: DeviceService { return .battery }
@@ -35,6 +39,7 @@ public class BatteryState: ServiceState {
     }
 }
 
+/// Class containing description of power state device
 public class PowerState: ServiceState {
     public var isLowMode: Bool
     public var service: DeviceService { return .power }
@@ -44,23 +49,24 @@ public class PowerState: ServiceState {
     }
 }
 
+/// The subscriber's protocol that you need to implement in order to receive the update of the device states
 @objc public protocol DeviceStateSubscriber: AnyObject {
+    
+    /// Method which will be called after some service updated
+    ///
+    /// - Parameter serviceState: Service state object which contains description of changed service
     func didUpdate(serviceState: ServiceState)
 }
 
+/// A class that monitors the status of device services.
 public final class DeviceStateMonitor {
     
-    // MARK: - Public Properties
-    
+    /// Shared instance of DeviceStateMonitor
     public static let sharedInstance = DeviceStateMonitor()
-    
-    // MARK: - Private Properties
     
     private let notificationCenter = NotificationCenter.default
     private let device = UIDevice.current
     private var subscribers: [DeviceService: NSHashTable<DeviceStateSubscriber>]
-    
-    // MARK: - Lifecycle
     
     private init() {
         subscribers = [.thermal: NSHashTable<DeviceStateSubscriber>.weakObjects(),
@@ -73,13 +79,14 @@ public final class DeviceStateMonitor {
         device.isBatteryMonitoringEnabled = false
     }
     
-    // MARK: - Interface
-    
+    /// Method use
+    ///
+    /// - Parameters:
+    ///   - subscriber: Subscriber which will receive service updates
+    ///   - service: Identifier observable service
     public func subscribe(subscriber: DeviceStateSubscriber, to service: DeviceService) {
         subscribers[service]?.add(subscriber)
     }
-    
-    // MARK: - Private
     
     private func addObservers() {
         device.isBatteryMonitoringEnabled = true
@@ -113,12 +120,14 @@ private extension DeviceStateMonitor {
     }
 }
 
+// MARK: - Selector
 fileprivate extension Selector {
     static let thermalDidChange = #selector(DeviceStateMonitor.termalStateDidChange(_:))
     static let batteryDidChange = #selector(DeviceStateMonitor.batteryStateDidChange(_:))
     static let powerDidChange = #selector(DeviceStateMonitor.powerModeDidChange(_:))
 }
 
+// MARK: - NSNotification.Name
 fileprivate extension NSNotification.Name {
     static let thermalDidChange = ProcessInfo.thermalStateDidChangeNotification
     static let batteryDidChange = UIDevice.batteryStateDidChangeNotification
