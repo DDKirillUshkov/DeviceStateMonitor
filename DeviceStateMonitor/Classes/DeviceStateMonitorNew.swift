@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import AVFoundation
 
 @objc public enum DeviceService: Int {
     case thermal
@@ -51,10 +50,14 @@ public class PowerState: ServiceState {
 
 public final class DeviceStateMonitorNew {
     
-    // MARK: - Properties
+    // MARK: - Public Properties
     
     public static let sharedInstance = DeviceStateMonitorNew()
     
+    // MARK: - Private Properties
+    
+    private let notificationCenter = NotificationCenter.default
+    private let device = UIDevice.current
     private var subscribers: [DeviceService: NSHashTable<DeviceStateSubscriber>]
     
     // MARK: - Lifecycle
@@ -66,6 +69,10 @@ public final class DeviceStateMonitorNew {
         addObservers()
     }
     
+    deinit {
+        device.isBatteryMonitoringEnabled = false
+    }
+    
     // MARK: - Interface
     
     public func subscribe(subscriber: DeviceStateSubscriber, to service: DeviceService) {
@@ -75,27 +82,11 @@ public final class DeviceStateMonitorNew {
     // MARK: - Private
     
     private func addObservers() {
-        UIDevice.current.isBatteryMonitoringEnabled = true
-        try? AVAudioSession.sharedInstance().setActive(true, options: [])
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(termalStateDidChange(_:)),
-                                               name: ProcessInfo.thermalStateDidChangeNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(batteryStateDidChange(_:)),
-                                               name: UIDevice.batteryStateDidChangeNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(powerStateDidChange(_:)),
-                                               name: NSNotification.Name.NSProcessInfoPowerStateDidChange,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(handleRouteChange(_:)),
-                                               name: AVAudioSession.routeChangeNotification,
-                                               object: nil)
+        device.isBatteryMonitoringEnabled = true
+        notificationCenter.addObserver(self, selector: .thermalDidChange, name: .thermalDidChange, object: nil)
+        notificationCenter.addObserver(self, selector: .batteryDidChange, name: .batteryDidChange, object: nil)
+        notificationCenter.addObserver(self, selector: .powerDidChange, name: .powerDidChange, object: nil)
     }
-    
-    
 }
 
 // MARK: - Subscribes
@@ -120,12 +111,16 @@ private extension DeviceStateMonitorNew {
         let state = PowerState(isLowMode: powerState)
         subscribers[.power]?.allObjects.forEach({ $0.didUpdate(serviceState: state) })
     }
-    
-    @objc func handleRouteChange(_ notification: NSNotification) {
-        // or get from notification
-        
-        let userInfo = notification.userInfo
-        guard let reasonRaw = userInfo?[AVAudioSessionRouteChangeReasonKey] as? NSNumber else { return }
-        let reason = AVAudioSession.RouteChangeReason(rawValue: reasonRaw.uintValue)
-    }
+}
+
+fileprivate extension Selector {
+    static let thermalDidChange = #selector(DeviceStateMonitorNew.termalStateDidChange(_:))
+    static let batteryDidChange = #selector(DeviceStateMonitorNew.batteryStateDidChange(_:))
+    static let powerDidChange = #selector(DeviceStateMonitorNew.powerStateDidChange(_:))
+}
+
+fileprivate extension NSNotification.Name {
+    static let thermalDidChange = ProcessInfo.thermalStateDidChangeNotification
+    static let batteryDidChange = UIDevice.batteryStateDidChangeNotification
+    static let powerDidChange = NSNotification.Name.NSProcessInfoPowerStateDidChange
 }
