@@ -79,13 +79,22 @@ public final class DeviceStateMonitor {
         device.isBatteryMonitoringEnabled = false
     }
     
-    /// Method use
+    /// Method for subscribing to service
     ///
     /// - Parameters:
     ///   - subscriber: Subscriber which will receive service updates
     ///   - service: Identifier observable service
     public func subscribe(subscriber: DeviceStateSubscriber, to service: DeviceService) {
         subscribers[service]?.add(subscriber)
+    }
+    
+    /// Method for unsubscribing from service
+    ///
+    /// - Parameters:
+    ///   - subscriber: Subscriber which will receive service updates
+    ///   - service: Identifier observable service
+    public func unsubscribe(subscriber: DeviceStateSubscriber, from service: DeviceService) {
+        subscribers[service]?.remove(subscriber)
     }
     
     private func addObservers() {
