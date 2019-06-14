@@ -105,18 +105,18 @@ private extension DeviceStateMonitorNew {
         }
     }
     
-    @objc func powerStateDidChange(_ notification: NSNotification) {
-        // or get from notification
-        let powerState: Bool = ProcessInfo.processInfo.isLowPowerModeEnabled
-        let state = PowerState(isLowMode: powerState)
-        subscribers[.power]?.allObjects.forEach({ $0.didUpdate(serviceState: state) })
+    @objc func powerModeDidChange(_ notification: NSNotification) {
+        if let isLowMode = (notification.object as? ProcessInfo)?.isLowPowerModeEnabled {
+            let state = PowerState(isLowMode: isLowMode)
+            subscribers[.power]?.allObjects.forEach({ $0.didUpdate(serviceState: state) })
+        }
     }
 }
 
 fileprivate extension Selector {
     static let thermalDidChange = #selector(DeviceStateMonitorNew.termalStateDidChange(_:))
     static let batteryDidChange = #selector(DeviceStateMonitorNew.batteryStateDidChange(_:))
-    static let powerDidChange = #selector(DeviceStateMonitorNew.powerStateDidChange(_:))
+    static let powerDidChange = #selector(DeviceStateMonitorNew.powerModeDidChange(_:))
 }
 
 fileprivate extension NSNotification.Name {
