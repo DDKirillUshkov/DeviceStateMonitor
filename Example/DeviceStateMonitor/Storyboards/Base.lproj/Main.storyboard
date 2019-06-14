@@ -192,13 +192,7 @@ followers</string>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Eric Parker" id="w4r-xh-XWS">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="nsM-8F-eea">
-                            <connections>
-                                <segue destination="FXm-Cd-g0N" kind="push" id="pdk-hZ-w4S"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Eric Parker" id="w4r-xh-XWS"/>
                     <connections>
                         <outlet property="collectionView" destination="eng-N9-ujI" id="7E4-eb-TnB"/>
                     </connections>
@@ -207,22 +201,6 @@ followers</string>
                 <customObject id="wyr-Tg-2Dq" customClass="ProfileDataSource" customModule="DeviceStateMonitor_Example" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="52" y="26.53673163418291"/>
-        </scene>
-        <!--View Controller2-->
-        <scene sceneID="GOm-LI-3cs">
-            <objects>
-                <viewController id="FXm-Cd-g0N" customClass="ViewController2" customModule="DeviceStateMonitor_Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="1l7-1j-HuY">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="hUF-NN-Jfe"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="Dyt-Zr-jUB"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WUt-ER-VDw" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="798" y="27"/>
         </scene>
     </scenes>
     <resources>

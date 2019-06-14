@@ -2,8 +2,7 @@
 //  ViewController.swift
 //  StateMonitoringDemo
 //
-//  Created by Valeriy Efimov on 3/17/19.
-//  Copyright © 2019 tomych. All rights reserved.
+//  Copyright (c) 2019 dashdevs.com. All rights reserved.
 //
 
 import UIKit
@@ -12,26 +11,121 @@ import DeviceStateMonitor
 
 class ViewController: UIViewController {
     
+    // MARK: - Outlets
+    
     @IBOutlet weak var collectionView: UICollectionView!
    
-//    var deviceStateMonitor: DeviceStateMonitor?
+    // MARK: - Properties
+    
+    private let deviceStateMonitor = DeviceStateMonitor.sharedInstance
+    private let theme = ThemeStorage.shared
+    
+    // MARK: - UIViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        deviceStateMonitor = DeviceStateMonitor(with: self)
         apply(theme: ThemeStorage.shared.current)
+        deviceStateMonitor.subscribe(subscriber: self, to: .thermal)
+        deviceStateMonitor.subscribe(subscriber: self, to: .battery)
+        deviceStateMonitor.subscribe(subscriber: self, to: .power)
     }
-    
-    //just hack to demonstrate - need to figure out how to heat real device
-    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        if motion == .motionShake {
-            ThemeStorage.shared.currentStyle = .safe
-            apply(theme: ThemeStorage.shared.current)
-            present(message: .overTermal)
+}
+
+// MARK: - DeviceStateSubscriber
+extension ViewController: DeviceStateSubscriber {
+    func didUpdate(serviceState: ServiceState) {
+        switch serviceState {
+        case let thermalState as ThermalState:
+            theme.currentStyle = thermalState.style
+            apply(theme: theme.current)
+            show(message: Message(thermalState: thermalState))
+        case let batteryState as BatteryState:
+            theme.currentStyle = batteryState.style
+            apply(theme: theme.current)
+            show(message: Message(batteryState: batteryState))
+        case let powerState as PowerState:
+            theme.currentStyle = powerState.style
+            apply(theme: theme.current)
+            show(message: Message(powerState: powerState))
+        default: break
         }
     }
 }
 
+// MARK: - PowerState
+fileprivate extension PowerState {
+    var style: ThemeStyle {
+        switch isLowMode {
+        case true: return .safe
+        case false: return .regular
+        }
+    }
+}
+
+// MARK: - BatteryState
+fileprivate extension BatteryState {
+    var style: ThemeStyle {
+        switch batteryState {
+        case .charging: return .dark
+        case .full: return .regular
+        case .unplugged, .unknown: return .safe
+        }
+    }
+}
+
+// MARK: - ThermalState
+fileprivate extension ThermalState {
+    var style: ThemeStyle {
+        switch thermalState {
+        case .critical, .serious, .fair: return .safe
+        case .nominal: return .regular
+        }
+    }
+}
+
+// MARK: - DataStructures
+extension ViewController {
+    enum Message: String {
+        
+        case lowPowerMode = "Hello guy! Low power mode enabled"
+        case regularPowerMode = "Hello guy! Low power mode disabled"
+        case batteryCharging = "Hello guy! I'm charging"
+        case batteryFull = "Hello guy! I've full battery"
+        case batteryUnplugged = "Hello guy! I was disconnected from the network"
+        case batteryUnknown = "Hello guy! I don't know what happened"
+        case thermalCritial = "Hey, help me! I'm burning!!!"
+        case thermalSerious = "Hey, I feel hot"
+        case thermalFair = "Hey, slow down"
+        case thermalNominal = "Hello, I stand idle"
+        
+        init(powerState: PowerState) {
+            switch powerState.isLowMode {
+            case true: self = .lowPowerMode
+            case false: self = .regularPowerMode
+            }
+        }
+        
+        init(batteryState: BatteryState) {
+            switch batteryState.batteryState {
+            case .charging: self = .batteryCharging
+            case .full: self = .batteryFull
+            case .unplugged: self = .batteryUnplugged
+            case .unknown: self = .batteryUnknown
+            }
+        }
+        
+        init(thermalState: ThermalState) {
+            switch thermalState.thermalState {
+            case .critical: self = .thermalCritial
+            case .serious: self = .thermalSerious
+            case .fair: self = .thermalFair
+            case .nominal: self = .thermalNominal
+            }
+        }
+    }
+}
+
+// MARK: - Themable
 extension ViewController: Themable {
     func apply(theme: Theme) {
         DispatchQueue.main.async {
@@ -43,64 +137,29 @@ extension ViewController: Themable {
     }
 }
 
-enum MessageType: String {
-    case newAccessour = "Hey! New device plugged in"
-    case darkTheme = "Hey! Swiched to dark theme"
-    case regularTheme = "Hey! Swiched to regular theme"
-    case charging = "We are charging - switched to regular theme"
-    case overTermal = "Hey! We are burning - switched to safe theme"
-}
-
-//extension ViewController: StateHandler {
-////    func didChangeAccessours(state: Accessours) {
-////        present(message: .newAccessour)
-////    }
-////
-////    func didChangePowerMode(state: PowerMode) {
-////        if state == .lowPower {
-////            ThemeStorage.shared.currentStyle = .dark
-////            present(message: .darkTheme)
-////            apply(theme: ThemeStorage.shared.current)
-////            return
-////        }
-////        ThemeStorage.shared.currentStyle = .regular
-////        present(message: .regularTheme)
-////        apply(theme: ThemeStorage.shared.current)
-////
-////    }
-////
-////    func didChangePowerState(state: PowerState) {
-////        if state == .charging {
-////            ThemeStorage.shared.currentStyle = .regular
-////            apply(theme: ThemeStorage.shared.current)
-////            present(message: .charging)
-////        }
-////    }
-////
-////    func didChangeTermalState(state: TermalState) {
-////        if state != .nominal {
-////            ThemeStorage.shared.currentStyle = .safe
-////            apply(theme: ThemeStorage.shared.current)
-////            present(message: .overTermal)
-////        }
-////    }
-//}
-
+// MARK: - Messages
 extension ViewController {
-    func present(message: MessageType) {
+    func show(message: Message) {
         DispatchQueue.main.async {
             let view = MessageView.viewFromNib(layout: .statusLine)
+            
             switch message {
-            case .overTermal:
+            case .lowPowerMode,
+                 .batteryUnknown,
+                 .thermalCritial,
+                 .thermalSerious,
+                 .thermalFair:
                 view.configureTheme(.warning)
                 view.configureContent(title: "Warning", body: message.rawValue, iconText: "🔥")
-            case .darkTheme:
-                view.configureTheme(.warning)
-                view.configureContent(title: "Warning", body: message.rawValue, iconText: "😳")
-            default:
-                view.configureContent(title: "Hey", body: message.rawValue, iconText: "🤔")
+            case .regularPowerMode,
+                 .batteryCharging,
+                 .batteryUnplugged,
+                 .batteryFull,
+                 .thermalNominal:
                 view.configureTheme(.info)
+                view.configureContent(title: "Info", body: message.rawValue, iconText: "🤔")
             }
+            
             view.configureDropShadow()
             view.layoutMarginAdditions = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
             (view.backgroundView as? CornerRoundingView)?.cornerRadius = 10
@@ -108,3 +167,4 @@ extension ViewController {
         }
     }
 }
+
