@@ -99,10 +99,10 @@ private extension DeviceStateMonitorNew {
     }
     
     @objc func batteryStateDidChange(_ notification: NSNotification) {
-        // or get from notification
-        let batteryState: UIDevice.BatteryState = UIDevice.current.batteryState
-        let state = BatteryState(batteryState: batteryState)
-        subscribers[.battery]?.allObjects.forEach({ $0.didUpdate(serviceState: state) })
+        if let batteryState = (notification.object as? UIDevice)?.batteryState {
+            let batteryState = BatteryState(batteryState: batteryState)
+            subscribers[.battery]?.allObjects.forEach({ $0.didUpdate(serviceState: batteryState) })
+        }
     }
     
     @objc func powerStateDidChange(_ notification: NSNotification) {
