@@ -92,10 +92,10 @@ public final class DeviceStateMonitorNew {
 // MARK: - Subscribes
 private extension DeviceStateMonitorNew {
     @objc func termalStateDidChange(_ notification: NSNotification) {
-        // or get from notification
-        let thermalState = ProcessInfo.processInfo.thermalState
-        let state = ThermalState(thermalState: thermalState)
-        subscribers[.thermal]?.allObjects.forEach({ $0.didUpdate(serviceState: state) })
+        if let thermalState = (notification.object as? ProcessInfo)?.thermalState {
+            let thermalState = ThermalState(thermalState: thermalState)
+            subscribers[.thermal]?.allObjects.forEach({ $0.didUpdate(serviceState: thermalState) })
+        }
     }
     
     @objc func batteryStateDidChange(_ notification: NSNotification) {
