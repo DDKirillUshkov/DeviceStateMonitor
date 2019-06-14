@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DeviceStateMonitor'
-  s.version          = '1.0.0'
-  s.summary          = 'DeviceStateMonitor wraps logic about different device state events like: battery, thermal state, power mode'
+  s.version          = '0.1.0'
+  s.summary          = 'DeviceStateMonitor wraps logic about different device state events like: battery state, thermal state, power mode'
 
   s.homepage         = 'https://dashdevs.com'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
