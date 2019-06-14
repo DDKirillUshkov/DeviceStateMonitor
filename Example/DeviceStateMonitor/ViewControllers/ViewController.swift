@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        apply(theme: ThemeStorage.shared.current)
+        apply(theme: theme.current)
         deviceStateMonitor.subscribe(subscriber: self, to: .thermal)
         deviceStateMonitor.subscribe(subscriber: self, to: .battery)
         deviceStateMonitor.subscribe(subscriber: self, to: .power)
@@ -129,8 +129,8 @@ extension ViewController {
 extension ViewController: Themable {
     func apply(theme: Theme) {
         DispatchQueue.main.async {
-            self.navigationController?.navigationBar.apply(theme: ThemeStorage.shared.current)
-            self.collectionView.apply(theme: ThemeStorage.shared.current)
+            self.navigationController?.navigationBar.apply(theme: self.theme.current)
+            self.collectionView.apply(theme: self.theme.current)
             self.navigationController?.navigationBar.layoutSubviews()
             UIScreen.main.brightness = CGFloat(theme.recommendedBrightnessLevel)
         }
@@ -167,4 +167,3 @@ extension ViewController {
         }
     }
 }
-
