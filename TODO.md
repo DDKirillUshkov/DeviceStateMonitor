@@ -1,1 +1,1 @@
-## Need to include in future releases
+Will be good add support battery level https://developer.apple.com/documentation/uikit/uidevice/1620060-batteryleveldidchangenotificatio
