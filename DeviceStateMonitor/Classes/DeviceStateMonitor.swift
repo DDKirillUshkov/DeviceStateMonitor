@@ -2,7 +2,7 @@
 //  DeviceStateMonitor.swift
 //  DeviceStateMonitor
 //
-//  Copyright (c) 2019 dashdevs.com. All rights reserved.
+//  Copyright © 2019 dashdevs. All rights reserved.
 //
 
 import Foundation
