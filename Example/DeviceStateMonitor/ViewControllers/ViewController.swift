@@ -55,7 +55,7 @@ extension ViewController: DeviceStateSubscriber {
 // MARK: - PowerState
 fileprivate extension PowerState {
     var style: ThemeStyle {
-        switch isLowMode {
+        switch isLowPowerModeEnabled {
         case true: return .safe
         case false: return .regular
         }
@@ -99,7 +99,7 @@ extension ViewController {
         case thermalNominal = "Hello, I stand idle"
         
         init(powerState: PowerState) {
-            switch powerState.isLowMode {
+            switch powerState.isLowPowerModeEnabled {
             case true: self = .lowPowerMode
             case false: self = .regularPowerMode
             }

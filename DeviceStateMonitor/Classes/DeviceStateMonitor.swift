@@ -41,11 +41,11 @@ public class BatteryState: ServiceState {
 
 /// Class containing description of power state device
 public class PowerState: ServiceState {
-    public var isLowMode: Bool
+    public var isLowPowerModeEnabled: Bool
     public var service: DeviceService { return .power }
     
-    init(isLowMode: Bool) {
-        self.isLowMode = isLowMode
+    init(isLowPowerModeEnabled: Bool) {
+        self.isLowPowerModeEnabled = isLowPowerModeEnabled
     }
 }
 
@@ -122,8 +122,8 @@ private extension DeviceStateMonitor {
     }
     
     @objc func powerModeDidChange(_ notification: NSNotification) {
-        if let isLowMode = (notification.object as? ProcessInfo)?.isLowPowerModeEnabled {
-            let state = PowerState(isLowMode: isLowMode)
+        if let isLowPowerModeEnabled = (notification.object as? ProcessInfo)?.isLowPowerModeEnabled {
+            let state = PowerState(isLowPowerModeEnabled: isLowPowerModeEnabled)
             subscribers[.power]?.allObjects.forEach({ $0.didUpdate(serviceState: state) })
         }
     }
