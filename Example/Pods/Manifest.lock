@@ -17,9 +17,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  DeviceStateMonitor: cde0d4618fd30e810eeb8e8da6ff10f8373355d6
+  DeviceStateMonitor: b0cf7f053c85de66dadee6810672cf1bc0244bdd
   SwiftMessages: a952f7a9103d9aeab93730a2861d2d8fcdd8758f
 
-PODFILE CHECKSUM: 2c447162450ba93f4a68d9de7c8a4dba5a0fe098
+PODFILE CHECKSUM: e0cc3fab74c5fdab908a7a922b6a868f01239a52
 
 COCOAPODS: 1.6.1

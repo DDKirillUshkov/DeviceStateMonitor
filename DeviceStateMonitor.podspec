@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.author           = { 'dashdevs llc' => 'hello@dashdevs.com' }
   s.source           = { :git => 'https://bitbucket.org/itomych/DeviceStateMonitor.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '11.4'
+  s.ios.deployment_target = '11.0'
 
   s.source_files = 'DeviceStateMonitor/Classes/**/*'
   s.frameworks = 'UIKit'
