@@ -21,7 +21,7 @@ import Foundation
 
 /// Class containing description of thermal state device
 @available(iOS 11.0, *)
-public class ThermalState: ServiceState {
+public final class ThermalState: ServiceState {
     public var thermalState: ProcessInfo.ThermalState
     public var service: DeviceService { return .thermal }
     
@@ -31,8 +31,7 @@ public class ThermalState: ServiceState {
 }
 
 /// Class containing description of battery state device
-@available(iOS 3.0, *)
-public class BatteryState: ServiceState {
+public final class BatteryState: ServiceState {
     public var batteryState: UIDevice.BatteryState
     public var service: DeviceService { return .battery }
     
@@ -42,8 +41,7 @@ public class BatteryState: ServiceState {
 }
 
 /// Class containing description of power state device
-@available(iOS 9.0, *)
-public class PowerState: ServiceState {
+public final class PowerState: ServiceState {
     public var isLowPowerModeEnabled: Bool
     public var service: DeviceService { return .power }
     
