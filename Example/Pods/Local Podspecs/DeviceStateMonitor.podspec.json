@@ -1,8 +1,7 @@
 {
   "name": "DeviceStateMonitor",
   "version": "0.1.0",
-  "summary": "A short description of DeviceStateMonitor.",
-  "description": "TODO: Add long description of the pod here.",
+  "summary": "DeviceStateMonitor wraps logic about different device state events like: battery state, thermal state, power mode",
   "homepage": "https://dashdevs.com",
   "license": {
     "type": "MIT",
@@ -16,7 +15,9 @@
     "tag": "0.1.0"
   },
   "platforms": {
-    "ios": "8.0"
+    "ios": "11.0"
   },
-  "source_files": "DeviceStateMonitor/Classes/**/*"
+  "source_files": "DeviceStateMonitor/Classes/**/*",
+  "frameworks": "UIKit",
+  "swift_version": "4.2"
 }
