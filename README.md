@@ -1,4 +1,5 @@
 # DeviceStateMonitor
+DeviceStateMonitor wraps logic about different device state events like: battery state, thermal state, power mode so you can update your application logic accordingly.
 
 [![CI Status](https://img.shields.io/travis/Artur Kvaratshelia/DeviceStateMonitor.svg?style=flat)](https://travis-ci.org/Artur Kvaratshelia/DeviceStateMonitor)
 [![Version](https://img.shields.io/cocoapods/v/DeviceStateMonitor.svg?style=flat)](https://cocoapods.org/pods/DeviceStateMonitor)
