@@ -20,6 +20,11 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod 'DeviceStateMonitor'
 ```
+### Swift Package Manager
+
+The [Swift Package Manager](https://swift.org/package-manager/) is a tool for automating the distribution of Swift code and is integrated into the `swift` compiler.
+
+    https://github.com/dashdevs/DeviceStateMonitor.git
 
 ## Author
 

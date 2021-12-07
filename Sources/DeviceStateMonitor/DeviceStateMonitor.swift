@@ -5,7 +5,7 @@
 //  Copyright © 2019 dashdevs. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /// Set of possible observable services
 @objc public enum DeviceService: Int {
